@@ -2,7 +2,7 @@
 Burpsuite插件：被动方式进行未授权访问漏洞的扫描
 + 被动扫描经过Burpsuite的每一个请求
 + 通过删除Cookie头判断是否存在未授权访问问题
-+ 如果扫面到未授权访问的URL会显示到空白区域中
++ 如果扫描到未授权访问的URL会显示到空白区域中
 ****
 # Burpsuite UAScan Plugin
 Burpsuite Plugin: Passive Scanning For Unauthorized Access Vulnerabilities
