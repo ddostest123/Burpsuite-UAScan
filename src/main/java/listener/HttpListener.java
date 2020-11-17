@@ -1,7 +1,11 @@
 package listener;
 
 import burp.*;
-import common.PrintUtil;
+import http.HttpUtil;
+import ui.UAScan;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class HttpListener implements IHttpListener {
 
@@ -16,27 +20,59 @@ public class HttpListener implements IHttpListener {
 
     @Override
     public void processHttpMessage(int toolFlag, boolean messageIsRequest, IHttpRequestResponse messageInfo) {
-        if (messageIsRequest) {
-            IHttpService httpService = messageInfo.getHttpService();
-            IRequestInfo requestInfo = helpers.analyzeRequest(httpService, messageInfo.getRequest());
-            PrintUtil.print(callbacks, "Request URL:" + requestInfo.getUrl().toString());
-            for (String header : requestInfo.getHeaders()) {
-                if(header.endsWith("HTTP/1.1")
-                        ||header.endsWith("HTTP/1.0")
-                        ||header.endsWith("HTTP/2.0")){
-                    String[] temp = header.split(" ");
-                    String method = temp[0].trim();
-                    String uri = temp[1].trim();
-                    PrintUtil.print(callbacks,"method="+method+",uri="+uri);
-                }else{
-                    PrintUtil.print(callbacks, header);
-                    String[] temp = header.split(":");
-                    String key = temp[0].trim();
-                    String value = temp[1].trim();
-                    PrintUtil.print(callbacks,"key="+key+",value="+value);
+        if (UAScan.isEnable()) {
+            if (messageIsRequest) {
+                String method = "GET";
+                String url;
+                Map<String, String> headers = new HashMap<>();
+                IHttpService httpService = messageInfo.getHttpService();
+                IRequestInfo requestInfo = helpers.analyzeRequest(httpService, messageInfo.getRequest());
+                url = requestInfo.getUrl().toString();
+                for (String header : requestInfo.getHeaders()) {
+                    if (header.endsWith("HTTP/1.1")
+                            || header.endsWith("HTTP/1.0")
+                            || header.endsWith("HTTP/2.0")) {
+                        String[] temp = header.split(" ");
+                        method = temp[0].trim();
+                    } else {
+                        String[] temp = header.split(":");
+                        String key = temp[0].trim();
+                        String value = temp[1].trim();
+                        headers.put(key, value);
+                    }
                 }
+                doAnalyze(url, method, headers);
             }
-        } else {
         }
     }
+
+    private void doAnalyze(String url, String method, Map<String, String> headers) {
+        String[] suffix = new String[]{
+                ".js", ".jsx", ".coffee", ".ts",
+                ".css", ".less", ".scss", ".sass",
+                ".jpg", ".png", ".gif", ".bmp", ".svg",
+                ".ttf", ".eot", ".woff", ".woff2",
+                ".ejs", ".jade", ".vue"
+        };
+        if (url.endsWith("/")) {
+            url = url.substring(0, url.length() - 1);
+        }
+        for (String item : suffix) {
+            if (url.toLowerCase().endsWith(item)) {
+                return;
+            }
+            if (url.toLowerCase().contains(item + "?")) {
+                return;
+            }
+        }
+        String oldResult = HttpUtil.doRequest(url, method, headers);
+        headers.put("Cookie", "XUSHAOZHENSHUAI");
+        String newResult = HttpUtil.doRequest(url, method, headers);
+        if (oldResult.length() == newResult.length()) {
+            if (oldResult.equals(newResult)) {
+                UAScan.setText(url);
+            }
+        }
+    }
+
 }

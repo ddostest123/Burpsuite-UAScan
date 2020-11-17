@@ -19,7 +19,9 @@
             <constraints/>
             <properties>
               <columns value="50"/>
+              <editable value="false"/>
               <rows value="30"/>
+              <text value="Auto Scan Result:"/>
             </properties>
           </component>
         </children>

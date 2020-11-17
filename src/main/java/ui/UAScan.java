@@ -5,13 +5,49 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class UAScan {
-    private JPanel mainPanel;
-    private JTextArea resultText;
-    private JScrollPane scrollPanel;
-    private JButton clearButton;
-    private JCheckBox enableAutoScan;
+
+    public static JPanel mainPanel;
+    public static JTextArea resultText;
+    public static JScrollPane scrollPanel;
+    public static JButton clearButton;
+    public static JCheckBox enableAutoScan;
+
+    public UAScan() {
+        clearButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                resultText.setText("Auto Scan Result:");
+            }
+        });
+    }
+
+    public static void setText(String text) {
+        String old = resultText.getText();
+        resultText.setText(old + "\n" + text);
+    }
+
+    public static boolean isEnable() {
+        return enableAutoScan.isSelected();
+    }
+
+
+//    private JPanel mainPanel;
+//    private JTextArea resultText;
+//    private JScrollPane scrollPanel;
+//    private JButton clearButton;
+//    private JCheckBox enableAutoScan;
+//
+//    public static void main(String[] args) {
+//        JFrame frame = new JFrame("UAScan");
+//        frame.setContentPane(new UAScan().mainPanel);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.pack();
+//        frame.setVisible(true);
+//    }
 
     {
         $$$setupUI$$$();
@@ -31,7 +67,9 @@ public class UAScan {
         mainPanel.add(scrollPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         resultText = new JTextArea();
         resultText.setColumns(50);
+        resultText.setEditable(false);
         resultText.setRows(30);
+        resultText.setText("Auto Scan Result:");
         scrollPanel.setViewportView(resultText);
         final JLabel label1 = new JLabel();
         label1.setText("Author:Xu Shao   Team:Xiaodi Security   QQ:2023503307");
@@ -53,4 +91,5 @@ public class UAScan {
     public JComponent $$$getRootComponent$$$() {
         return mainPanel;
     }
+
 }
