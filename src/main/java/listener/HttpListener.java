@@ -50,7 +50,7 @@ public class HttpListener implements IHttpListener {
         String[] suffix = new String[]{
                 ".js", ".jsx", ".coffee", ".ts",
                 ".css", ".less", ".scss", ".sass",
-                ".jpg", ".png", ".gif", ".bmp", ".svg",
+                ".ico", ".jpg", ".png", ".gif", ".bmp", ".svg",
                 ".ttf", ".eot", ".woff", ".woff2",
                 ".ejs", ".jade", ".vue"
         };
