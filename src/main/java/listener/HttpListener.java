@@ -1,7 +1,13 @@
 package listener;
 
 import burp.*;
+import common.Config;
+import common.SimilarityUtils;
 import http.HttpUtil;
+import net.ricecode.similarity.JaroWinklerStrategy;
+import net.ricecode.similarity.SimilarityStrategy;
+import net.ricecode.similarity.StringSimilarityService;
+import net.ricecode.similarity.StringSimilarityServiceImpl;
 import ui.UAScan;
 
 import java.util.HashMap;
@@ -47,6 +53,13 @@ public class HttpListener implements IHttpListener {
     }
 
     private void doAnalyze(String url, String method, Map<String, String> headers) {
+        if(Config.filters.size()>0){
+            for(String item:Config.filters){
+                if(url.contains(item)){
+                    return;
+                }
+            }
+        }
         String[] suffix = new String[]{
                 ".js", ".jsx", ".coffee", ".ts",
                 ".css", ".less", ".scss", ".sass",
@@ -66,12 +79,13 @@ public class HttpListener implements IHttpListener {
             }
         }
         String oldResult = HttpUtil.doRequest(url, method, headers);
-        headers.put("Cookie", "XUSHAOZHENSHUAI");
+        headers.put("Cookie", "**********************");
         String newResult = HttpUtil.doRequest(url, method, headers);
-        if (oldResult.length() == newResult.length()) {
-            if (oldResult.equals(newResult)) {
-                UAScan.setText(url);
-            }
+        SimilarityStrategy strategy = new JaroWinklerStrategy();
+        StringSimilarityService service = new StringSimilarityServiceImpl(strategy);
+        double score = service.score(oldResult,newResult);
+        if (score>0.8){
+            UAScan.setText(url);
         }
     }
 
