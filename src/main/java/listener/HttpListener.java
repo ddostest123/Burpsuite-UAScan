@@ -2,7 +2,6 @@ package listener;
 
 import burp.*;
 import common.Config;
-import common.SimilarityUtils;
 import http.HttpUtil;
 import net.ricecode.similarity.JaroWinklerStrategy;
 import net.ricecode.similarity.SimilarityStrategy;
