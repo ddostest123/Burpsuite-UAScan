@@ -1,5 +1,5 @@
 # Burpsuite UAScan 插件
-Burpsuite插件：被动方式进行未授权访问漏洞的扫描
+Burpsuite插件：被动方式进行未授权访问漏洞（越权）的扫描
 + 被动扫描经过Burpsuite的每一个请求
 + 通过修改Cookie头重新访问判断是否存在未授权访问问题
 + 如果扫描到未授权访问的URL会显示到空白区域中
