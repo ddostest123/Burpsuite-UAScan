@@ -11,8 +11,6 @@ Burpsuite插件：被动方式进行未授权访问漏洞（越权）的扫描
 自动检测所有的流量，然后将可能存在未授权访问漏洞的URL显示到UAScan的页面中。
 一般建议在登录某系统后使用，是挖掘未授权访问漏洞的利器。
 目前只排除了静态文件，后续可以自定义排除规则
-### 开发者
-- 小迪安全团队（许少，修君）
 
 ![ua.png](https://xuyiqing-1257927651.cos.ap-beijing.myqcloud.com/burpsuite/ua.png)
 ****
@@ -30,7 +28,3 @@ Enter this page, check to start passive scanning, and then use burpsuite normall
 Automatically detect all traffic, and then display the URL that may have unauthorized access vulnerability to the uascan page.
 It is generally recommended to use it after logging in to a system, which is a sharp tool for mining unauthorized access vulnerabilities.
 At present, only static files are excluded, and exclusion rules can be customized later
-### Developer
-- XiaoDi Team(Xu,Man Go Tea Cool)
-****
-
